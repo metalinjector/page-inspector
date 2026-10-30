@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Page Inspector (debug)",
+  "version": "3.0.0",
+  "description": "Диагностика DOM и доступных фреймов, открытый Shadow DOM, CSS, ресурсы и отчет о полноте. Без экспорта секретных значений.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "downloads",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_title": "Page Inspector",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

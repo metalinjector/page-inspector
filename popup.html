@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Page Inspector</title>
+    <style>
+      :root { color-scheme: dark; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 13px;
+        margin: 0;
+        padding: 14px;
+        background: #1a1b1e;
+        color: #e6e6e6;
+        width: 380px;
+      }
+      h1 { font-size: 14px; margin: 0 0 10px; }
+      h2 { font-size: 12px; margin: 14px 0 6px; color: #c8ccd1; text-transform: uppercase; letter-spacing: 0.06em; }
+      .row { display: flex; flex-direction: column; gap: 6px; }
+      .row.inline { flex-direction: row; gap: 6px; align-items: stretch; }
+      button {
+        appearance: none;
+        border: 1px solid #444;
+        background: #2b2d31;
+        color: #f5f5f5;
+        padding: 9px 11px;
+        border-radius: 8px;
+        font-size: 13px;
+        cursor: pointer;
+        text-align: left;
+        flex: 1;
+      }
+      button.primary { background: #6e56cf; border-color: #6e56cf; }
+      button.small { padding: 7px 9px; font-size: 12px; flex: 0 0 auto; }
+      button:hover { filter: brightness(1.1); }
+      button:disabled { opacity: 0.5; cursor: not-allowed; }
+      input[type="text"] {
+        flex: 1;
+        background: #111214;
+        color: #f5f5f5;
+        border: 1px solid #444;
+        border-radius: 6px;
+        padding: 8px 9px;
+        font-size: 12px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      .hint { color: #9aa0a6; font-size: 11px; margin-top: 8px; line-height: 1.45; }
+      .status {
+        margin-top: 10px;
+        padding: 8px 10px;
+        border-radius: 6px;
+        background: #2a2d33;
+        font-size: 12px;
+        white-space: pre-wrap;
+        min-height: 1em;
+        max-height: 220px;
+        overflow: auto;
+      }
+      .status.ok { background: #1e3a2a; color: #b9f5c8; }
+      .status.err { background: #3a1e1e; color: #f5b9b9; }
+      label {
+        display: flex; align-items: center; gap: 6px;
+        font-size: 12px; color: #c8ccd1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Page Inspector</h1>
+
+    <h2>Снимок</h2>
+    <div class="row">
+      <button id="snapshotDetailed" class="primary">Подробный снимок всех доступных фреймов</button>
+      <button id="snapshotJson" class="primary">JSON-снимок (структура)</button>
+      <button id="snapshotHtml">Полный HTML</button>
+      <button id="snapshotMain">HTML только &lt;main&gt;</button>
+      <button id="snapshotBoth">JSON + полный HTML</button>
+      <button id="copyJson">Скопировать JSON в буфер</button>
+    </div>
+    <div class="row" style="margin-top: 8px;">
+      <label><input type="checkbox" id="saveAs" /> «Сохранить как…» (выбрать папку)</label>
+      <label><input type="checkbox" id="delay" /> Подождать 2 с перед снимком (для ленивой загрузки)</label>
+    </div>
+
+    <h2>Selector probe</h2>
+    <div class="row inline">
+      <input id="probeSel" type="text" placeholder='напр.  [data-testid="deep-article-view"]' />
+      <button id="probeBtn" class="small">Probe</button>
+    </div>
+
+    <div id="status" class="status">Готово.</div>
+
+    <div class="hint">
+      Подробный режим не экспортирует секретные значения. Обычные HTML-снимки могут содержать личные данные и активные скрипты. Не публикуйте экспорт без проверки.<br>Обычный JSON включает: route, headings outline, карту [data-testid], ARIA landmarks,
+      iframes, shadow-hosts, scroll-контейнеры, повторяющиеся группы карточек,
+      активные табы (aria-selected/data-state), формы+inputs, CSS-переменные,
+      og/twitter meta, ключи local/sessionStorage, focus/selection.
+    </div>
+
+    <script src="popup.js"></script>
+    <script src="detailed.js"></script>
+  </body>
+</html>
