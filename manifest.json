@@ -1,13 +1,17 @@
 {
   "manifest_version": 3,
   "name": "Page Inspector (debug)",
-  "version": "3.0.0",
-  "description": "Диагностика DOM и доступных фреймов, открытый Shadow DOM, CSS, ресурсы и отчет о полноте. Без экспорта секретных значений.",
+  "version": "3.1.0",
+  "description": "Диагностика страницы: DOM всех фреймов (включая закрытый Shadow DOM), cookie с HttpOnly, хранилища, IndexedDB, Cache Storage, ресурсы, MHTML.",
   "permissions": [
     "activeTab",
     "scripting",
     "downloads",
-    "clipboardWrite"
+    "clipboardWrite",
+    "cookies",
+    "webNavigation",
+    "pageCapture",
+    "debugger"
   ],
   "host_permissions": [
     "<all_urls>"

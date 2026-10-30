@@ -60,7 +60,7 @@ async function detailedExport(tab){
   try{results=await chrome.scripting.executeScript({target:{tabId:tab.id,allFrames:true},world:'ISOLATED',func:collectDetailed,args:[options]});}
   catch(e){warnings.push('Сбор всех фреймов не выполнен: '+e.message+'; выполнена попытка только основного фрейма.');results=await chrome.scripting.executeScript({target:{tabId:tab.id},world:'ISOLATED',func:collectDetailed,args:[options]});}
   const frames=results.map(r=>({frameId:r.frameId,documentId:r.documentId,data:r.result||null,error:r.error?String(r.error):r.result?null:'Нет результата'}));
-  const report={extensionVersion:'3.0.0',capturedAt:new Date().toISOString(),warnings,frames,notice:'Локальный диагностический снимок, не резервная копия авторизации. Список ответивших фреймов не доказывает доступность всех фреймов.'};
+  const report={extensionVersion:chrome.runtime.getManifest().version,capturedAt:new Date().toISOString(),warnings,frames,notice:'Локальный диагностический снимок, не резервная копия авторизации. Список ответивших фреймов не доказывает доступность всех фреймов.'};
   const name='inspector_detailed_'+safeHost(tab.url)+'_'+tsStamp()+'.json';
   await downloadText(JSON.stringify(report,null,2),name,'application/json');
   setStatus('Подробный JSON сохранен: '+name+'\nОтветивших фреймов: '+frames.length+'\nОграничения и ошибки: coverage в каждом фрейме.','ok');

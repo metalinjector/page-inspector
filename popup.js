@@ -4,6 +4,10 @@ const statusEl = document.getElementById("status");
 const saveAsEl = document.getElementById("saveAs");
 const delayEl = document.getElementById("delay");
 const probeInput = document.getElementById("probeSel");
+const mhtmlEl = document.getElementById("withMhtml");
+const devtoolsEl = document.getElementById("withDevtools");
+// В отдельном окне попап открывается с ?tab=ID и работает с этой вкладкой.
+const pinnedTabId = Number(new URLSearchParams(location.search).get("tab")) || null;
 
 function setStatus(msg, kind) {
   statusEl.textContent = msg;
@@ -12,6 +16,7 @@ function setStatus(msg, kind) {
 }
 
 async function getActiveTab() {
+  if (pinnedTabId) return chrome.tabs.get(pinnedTabId);
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   return tab;
 }
@@ -31,7 +36,11 @@ function safeHost(urlStr) {
 }
 
 async function downloadText(text, filename, mime) {
-  const url=URL.createObjectURL(new Blob([text],{type:mime+';charset=utf-8'}));
+  await downloadBlob(new Blob([text],{type:mime+';charset=utf-8'}), filename);
+}
+
+async function downloadBlob(blob, filename) {
+  const url=URL.createObjectURL(blob);
   try {
     const id=await chrome.downloads.download({url,filename,saveAs:!!saveAsEl.checked});
     await new Promise((resolve,reject)=>{
@@ -725,6 +734,12 @@ bind("snapshotBoth", async (tab) => {
 });
 bind("copyJson", copyJson);
 bind("probeBtn", probeSelector);
+
+bind("detach", async (tab) => {
+  await chrome.windows.create({ url: chrome.runtime.getURL("popup.html?tab=" + tab.id), type: "popup", width: 430, height: 760 });
+  window.close();
+});
+if (pinnedTabId) document.getElementById("detach").hidden = true;
 
 probeInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") document.getElementById("probeBtn").click();

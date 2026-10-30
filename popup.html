@@ -67,10 +67,18 @@
   <body>
     <h1>Page Inspector</h1>
 
+    <h2>Максимум данных</h2>
+    <div class="row">
+      <button id="snapshotFull" class="primary">Максимальный снимок (со всеми значениями)</button>
+      <label><input type="checkbox" id="withMhtml" checked /> + MHTML страницы (картинки, стили, фреймы)</label>
+      <label><input type="checkbox" id="withDevtools" /> + тела всех ресурсов через DevTools (JS, CSS, XHR из кэша)</label>
+      <button id="detach" class="small">Открыть в отдельном окне (не закроется при клике мимо)</button>
+    </div>
+
     <h2>Снимок</h2>
     <div class="row">
-      <button id="snapshotDetailed" class="primary">Подробный снимок всех доступных фреймов</button>
-      <button id="snapshotJson" class="primary">JSON-снимок (структура)</button>
+      <button id="snapshotDetailed">Подробный снимок без секретов</button>
+      <button id="snapshotJson">JSON-снимок (структура)</button>
       <button id="snapshotHtml">Полный HTML</button>
       <button id="snapshotMain">HTML только &lt;main&gt;</button>
       <button id="snapshotBoth">JSON + полный HTML</button>
@@ -90,6 +98,7 @@
     <div id="status" class="status">Готово.</div>
 
     <div class="hint">
+      <b>Максимальный снимок содержит значения cookie (включая HttpOnly), хранилищ, IndexedDB и полей — по сути доступ к вашей сессии. Не передавайте файл посторонним.</b><br>
       Подробный режим не экспортирует секретные значения. Обычные HTML-снимки могут содержать личные данные и активные скрипты. Не публикуйте экспорт без проверки.<br>Обычный JSON включает: route, headings outline, карту [data-testid], ARIA landmarks,
       iframes, shadow-hosts, scroll-контейнеры, повторяющиеся группы карточек,
       активные табы (aria-selected/data-state), формы+inputs, CSS-переменные,
@@ -98,5 +107,6 @@
 
     <script src="popup.js"></script>
     <script src="detailed.js"></script>
+    <script src="full.js"></script>
   </body>
 </html>
